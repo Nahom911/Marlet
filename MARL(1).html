@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration, Login, and Data Addition</title>
+
+  <style>
+/* Basic Reset */
+body, h1, h2, p, form, input, button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background: #FFFFFF; /* Light background color */
+  color: #333; /* Dark text color for readability */
+}
+
+/* General Styles for <h1> */
+h1 {
+  font-size: 3rem; /* Use rem for scalability */
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  padding: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  background: linear-gradient(90deg, #ff6f61, #de64a2);
+  -webkit-background-clip: text;
+  color: transparent;
+  border: 2px solid #de64a2;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+h1:hover {
+  transform: scale(1.05);
+  color: #ff6f61;
+}
+
+/* Responsive Design for h1 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+  }
+}
+
+    /* Top Container Styles */
+    .top-container {
+        background-size: cover; /* or 'contain' based on your preference */
+        background-position: top;
+        background-repeat: no-repeat;
+        width: 100%; /* Full width */
+        min-height: 100vh; /* Full viewport height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        overflow: hidden; /* Hide any overflow */
+        box-sizing: border-box; /* Include padding in width/height */
+    }
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  position: relative;
+  display: inline-block;
+  top: -250px; /* Adjust this value to move the menu higher */
+  z-index: 1000; /* Ensure it's in front */
+}
+
+.menu-button {
+  background-color: #0088cc; /* Telegram blue */
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 2rem; /* Use rem for better scaling */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.menu-button:hover {
+  background-color: #0077b3;
+}
+
+/* Menu Content */
+.menu-content {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background-color: #ffffff;
+  color: #000;
+  padding: 5px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 200px;
+}
+
+.menu-content.active {
+  display: block;
+}
+
+.menu-content button {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  color: #000;
+  border: none;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-content button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Main Header */
+.main-header {
+  background-color: #4681f4;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.header-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.container {
+  max-width: 600px; /* Max width */
+  margin: 20px auto; /* Centered horizontally */
+  background: white;
+  padding: 60px; /* Increased padding for more height */
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  min-height: 400px; /* Set a higher minimum height */
+  transform: translateY(-200px); /* Adjust this value to move it up */
+}
+
+
+
+h2 {
+  color: #4681f4;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+form {
+  margin-top: 10px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #4681f4; /* Focus state */
+}
+
+button[type="submit"],
+button[type="button"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  background-color: #4681f4;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background-color: #55c2da;
+  transform: scale(1.05);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Modal Styles */
+#changePasswordContainer {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+#changePasswordContainer form {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px;
+}
+#avastst, #usernameInput {
+  display: none;
+}
+
+#messages {
+  border: 1px solid #ddd;
+  height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#clientMessage {
+  width: calc(100% - 120px);
+  padding: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+.toast {
+  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  max-width: 90%;
+  text-align: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.toast.show {
+  display: block;
+  opacity: 1;
+}
+
+.alert {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  z-index: 1000;
+}
+
+.alert.error {
+  background-color: #f44336;
+}
+
+.alert.success {
+  background-color: #4caf50;
+}
+
+#Status, #logout, #languageButton, #Changepass {
+  background-color: #5dbea3;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: left;
+  display: block;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+#logout {
+  background-color: #d9534f;
+}
+
+#languageButton:hover, #logout:hover, #Status:hover, #Changepass:hover {
+  background-color: #4cae4c;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+  .top-container {
+    height: auto; /* Ensure full height for smaller screens */
+    min-height: 50vh; /* Adjust height for mobile */
+    padding: 10px; /* Less padding for mobile */
+    background-size: contain; /* Change to contain for better visibility */
+  }
+    
+  .container {
+    padding: 10px;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  input[type="password"],
+  input[type="email"],
+  textarea,
+  button[type="submit"],
+  button[type="button"] {
+    padding: 10px;
+  }
+  #languageButton, #logout, #Status, #Changepass {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+  select {
+    width: 100%;
+  }
+}
+
+</style>
+  
+  <!-- Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+
+  <!-- Header Buttons -->
+  <input type="text" id="usernameInput" name="userna" required aria-hidden="true">
+  <input type="text" id="avastst" name="userna" required aria-hidden="true"> 
+
+
+  <div class="top-container">
+    <!-- <h1 class="header-title">MARLET</h1>-->
+  </div>
+
+<div class="hamburger-menu">
+  <button class="menu-button" onclick="toggleMenu()">&#9776;</button>
+  <div class="menu-content" id="menuContent">
+    <button id="languageButton" onclick="toggleLanguage()">አማርኛ</button>
+    <button id="logout" onclick="logout()">Logout</button>
+    <button id="Status" onclick="toggleMessages()">Status</button>
+    <button id="Changepass" onclick="toggleChangePasswordContainer()">Changepass</button>
+  </div>
+</div>
+
+
+  <div class="container" id="mainContainer">
+    <!-- Login Form -->
+    <div id="loginForm">
+
+        <h2 id="loginFormHeading">Login</h2><br>
+        <form onsubmit="event.preventDefault(); loginUser();">
+            <label for="loginUsername" id="LoginUsernamel">Username (Phone)</label><br>
+            <input type="text" id="loginUsername" name="loginUsername" pattern="[0-9]{10}" title="Please enter a 10-digit number" required autocomplete="username" aria-label="Login Username"><br><br>
+
+            <label for="loginPassword" id="LoginPasswordl">Password:</label><br>
+            <input type="password" id="loginPassword" name="loginPassword" required autocomplete="current-password" aria-label="Login Password"><br><br>
+
+            <button type="submit" id="Loginb">Login</button>
+            <button type="button" id="Registerb" onclick="showRegistrationForm()">Register</button>
+            <button type="button" id="ForgotPasswordb" onclick="showForgotPasswordForm()">Forgot Password?</button>
+        </form>
+    </div>
+
+    <!-- Change Password Section -->
+
+      <div id="changePasswordContainer" style="display: none;">      
+        <form id="changePasswordForm" onsubmit="changePassword(); return false;">
+          <h2>Change Password</h2>
+          <label for="resetuser">Enter User Email:</label>
+          <input type="text" id="resetuser" placeholder="Enter user's email" aria-label="Enter user's email">
+          <label for="oldPassword">Enter Old Password:</label>
+          <input type="password" id="oldPassword" placeholder="Enter old password" aria-label="Enter old password">
+          <label for="newPassword">Enter New Password:</label>
+          <input type="password" id="newPassword" placeholder="Enter new password" aria-label="Enter new password">
+          <button type="submit" id="resetButton">Update Password</button>
+          <div id="reset-error-message" class="error-message" aria-live="assertive"></div>
+        </form>
+    </div>
+
+    <!-- Registration Form -->
+    <div id="registrationForm" style="display: none;">
+
+      <h2 id="registrationFormHeading">Registration</h2><br>
+      <form onsubmit="event.preventDefault(); registerUser();">
+        <label for="regUsername" id="RegUsername">Username (Phone)</label><br>
+        <input type="text" id="regUsername" name="regUsername" pattern="[0-9]{10}" title="Please enter a 10-digit number" required autocomplete="username" aria-label="Registration Username"><br><br>
+        
+        <label for="regPassword" id="RegPassword">Password:</label><br>
+        <input type="password" id="regPassword" name="regPassword" required autocomplete="new-password" aria-label="Registration Password"><br><br>
+        
+        <button type="submit" id="Registerrb">Register</button>
+        <button type="button" id="showLoginFormrb" onclick="showLoginForm()">Back to Login</button>
+      </form>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div id="forgotPasswordForm" style="display: none;">
+      <h2 id="forgotPasswordFormHeading">Forgot Password</h2><br>
+      <form onsubmit="event.preventDefault(); resetPassword();">
+        <label for="resetEmail" id="ResetEmail">Enter your email:</label><br>
+        <input type="email" id="resetEmail" name="resetEmail" required aria-label="Reset Email"><br><br>
+        
+        <button type="submit" id="ResetPasswordb">Reset Password</button>
+        <button type="button" id="showLoginFormfb" onclick="showLoginForm()">Back to Login</button>
+      </form>
+    </div>
+
+
+    <!-- Status Update Form -->
+    <div id="messagesContainer" style="display: none;">
+      <h2 id="StatusHeading">Status</h2><br>
+      <div id="messages"></div>
+      <form id="messageForm" onsubmit="sendMessage(); return false;">
+        <input type="text" id="clientMessage" placeholder="Type a message..." aria-label="Client Message"><br>
+        <button type="submit" id="Smessage">Send Message</button>
+      </form>
+    </div>
+
+
+    <!-- Data Addition Form -->
+    <div id="dataAddForm" style="display: none;">
+      <h2 id="dataAddFormHeading">Add Car Data</h2>
+      <form id="userForm">
+        <label for="carList" id="CarListl">Select Car Maker:</label>
+        <select id="carList" onchange="updateCarMaker()" aria-label="Car Maker">
+          <option value="">Select Car Maker:</option>
+          <option value="Acura">Acura</option>
+          <option value="Alfa Romeo">Alfa Romeo</option>
+          <option value="Aston Martin">Aston Martin</option>
+          <option value="Audi">Audi</option>
+          <option value="Bentley">Bentley</option>
+          <option value="BMW">BMW</option>
+          <option value="Bugatti">Bugatti</option>
+          <option value="Cadillac">Cadillac</option>
+          <option value="Chevrolet">Chevrolet</option>
+          <option value="Chrysler">Chrysler</option>
+          <option value="Citroen">Citroen</option>
+          <option value="Dodge">Dodge</option>
+          <option value="Ferrari">Ferrari</option>
+          <option value="Fiat">Fiat</option>
+          <option value="Ford">Ford</option>
+          <option value="Genesis">Genesis</option>
+          <option value="Honda">Honda</option>
+          <option value="Hyundai">Hyundai</option>
+          <option value="Infiniti">Infiniti</option>
+          <option value="Isuzu">Isuzu</option>
+          <option value="Jaguar">Jaguar</option>
+          <option value="Jeep">Jeep</option>
+          <option value="Kia">Kia</option>
+          <option value="Lamborghini">Lamborghini</option>
+          <option value="Land Rover">Land Rover</option>
+          <option value="Lexus">Lexus</option>
+          <option value="Lincoln">Lincoln</option>
+          <option value="Lotus">Lotus</option>
+          <option value="Maserati">Maserati</option>
+          <option value="Mazda">Mazda</option>
+          <option value="Maybach">Maybach</option>
+          <option value="Mercedes-Benz">Mercedes-Benz</option>
+          <option value="Mini">Mini</option>
+          <option value="Mitsubishi">Mitsubishi</option>
+          <option value="Nissan">Nissan</option>
+          <option value="Opel">Opel</option>
+          <option value="Pagani">Pagani</option>
+          <option value="Peugeot">Peugeot</option>
+          <option value="Porsche">Porsche</option>
+          <option value="Renault">Renault</option>
+          <option value="Rolls-Royce">Rolls-Royce</option>
+          <option value="Skoda">Skoda</option>
+          <option value="Subaru">Subaru</option>
+          <option value="Suzuki">Suzuki</option>
+          <option value="Tesla">Tesla</option>
+          <option value="Toyota">Toyota</option>
+          <option value="Volkswagen">Volkswagen</option>
+          <option value="Volvo">Volvo</option>
+          <option value="Other">Other (Enter Below)</option>
+        </select>
+        
+        <input type="text" id="carMaker" name="carMaker" placeholder="Car Maker" required aria-label="Car Maker">
+        
+        <label for="carList2" id="CarList2l">Select Car Model:</label>
+        <select id="carList2" onchange="updateCarModel()" aria-label="Car Model">
+          <option value="">Select Car Model:</option>
+          <!-- Options will be populated dynamically -->
+        </select>
+        
+        <input type="text" id="carModel" name="carModel" placeholder="Car Model" required aria-label="Car Model">
+
+        <label for="year" id="Year">Year:</label>
+        <input type="number" id="year" name="year" placeholder="Year" required aria-label="Year">
+
+        <label for="chassisNumber" id="ChassisNumber">Chassis Number:</label>
+        <input type="text" id="chassisNumber" name="chassisNumber" placeholder="Chassis Number" required aria-label="Chassis Number">
+
+        <label for="problem" id="Problem">Item Name:</label>
+        <textarea id="problem" name="problem" rows="3" required aria-label="Item Name"></textarea>
+
+        <button type="submit" id="addUserButtonb">Send</button>
+      </form>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="errorToast" class="toast">
+      <div class="modal-content">
+        <h2>Error</h2>
+        <p id="toastErrorMessage"></p>
+        <button id="toastOKButton">OK</button>
+      </div>
+    </div>
+    <!-- Success Toast -->
+    <div id="successToast" class="toast">
+      <div class="toast-content">
+        <h2 id="Success">Success</h2>
+        <p id="toastSuccessMessage"></p>
+        <button id="successOKButton">OK</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- Error Alert -->
+    <div id="errorAlert" class="alert error"></div>
+
+    <!-- Success Alert -->
+    <div id="successAlert" class="alert success"></div>
+
+    <!-- Modal Windows -->
+    <!-- <div id="errorModal" class="modal">
+      <div class="modal-content">
+        <h2>Error</h2>
+        <p id="modalErrorMessage"></p>
+        <button id="modalOKButton">OK</button>
+      </div>
+    </div>
+
+    <div id="successModal" class="modal">
+      <div class="modal-content">
+        <h2 id="Success">Success</h2>
+        <p id="modalSuccessMessage"></p>
+        <button id="successOKButton">OK</button>
+      </div>
+    </div>
+  </div>-->
+
+  <script>
+    // Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyBgeyh9k5b2KJ0QZU_S540dVyo20HSb9yQ",
+  authDomain: "marlet-5031d.firebaseapp.com",
+  databaseURL: "https://marlet-5031d-default-rtdb.firebaseio.com",
+  projectId: "marlet-5031d",
+  storageBucket: "marlet-5031d.appspot.com",
+  messagingSenderId: "354722804706",
+  appId: "1:354722804706:web:197610bb88cd61a7dfffbb",
+  measurementId: "G-1GPSRZB226"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistence
+
+// Firebase references
+const auth = firebase.auth();
+const database = firebase.database();
+const firestore = firebase.firestore();
+const usersRef = database.ref('MARLET_AUTO_SPARE_PARTS/USERS');
+const storage = firebase.storage();
+const storageRef = firebase.storage().ref('ML4.jpg');
+
+let loggedInUsername = ''; // Store logged-in username
+
+// Function to hide all forms except the login form
+function hideAllFormsExceptLogin() {
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordContainer').style.display = 'none';
+
+  errorToast.style.displayisplay = 'none';
+  successToast.style.displayisplay = 'none';
+  var statusButton = document.getElementById('Status');
+  if (statusButton) {
+    statusButton.disabled = true;
+  }
+  var ChangepassButton = document.getElementById('Changepass');
+  if (ChangepassButton) {
+    ChangepassButton.disabled = true;
+  }
+
+  var ChangepassButton = document.getElementById('Changepass');
+  if (ChangepassButton) {
+    ChangepassButton.disabled = true;
+  }
+}
+function showAlert(alertId, message, duration = 5000) {
+  const alert = document.getElementById(alertId);
+  alert.textContent = message;
+  alert.style.display = 'block';
+
+  setTimeout(() => {
+    alert.style.display = 'none';
+  }, duration);
+}
+
+function displaySuccessAlert(message) {
+  showAlert('successAlert', message);
+}
+
+function displayErrorAlert(message) {
+  showAlert('errorAlert', message);
+}
+
+function showToast(toastId, message, duration = 3000) {
+  const toast = document.getElementById(toastId);
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
+}
+
+function displaySuccessToast(message) {
+  showToast('successToast', message);
+}
+
+function displayErrorToast(message) {
+  showToast('errorToast', message);
+}
+// Function to get download URL for background image
+storageRef.getDownloadURL()
+    .then((url) => {
+        const topContainer = document.querySelector('.top-container');
+        if (topContainer) {
+            topContainer.style.backgroundImage = `url(${url})`;
+        }
+    })
+    .catch((error) => {
+        console.error('Error getting download URL:', error);
+    });
+
+
+
+
+
+// Check if user is logged in on page load
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log('User is logged in:', user.uid);
+    loggedInUsername = user.email.split('@')[0]; // Extract username from email
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registrationForm').style.display = 'none';
+    document.getElementById('dataAddForm').style.display = 'block';
+    document.getElementById('messagesContainer').style.display = 'none';
+    document.getElementById('forgotPasswordForm').style.display = 'none';
+    document.getElementById('changePasswordContainer').style.display = 'none';
+    var statusButton = document.getElementById('Status');
+    if (statusButton) {
+      statusButton.disabled = false;
+    }
+    var ChangepassButton = document.getElementById('Changepass');
+    if (ChangepassButton) {
+      ChangepassButton.disabled = false;
+    }
+  } else {
+    console.log('No user is logged in');
+    document.getElementById('registrationForm').style.display = 'block';
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('dataAddForm').style.display = 'none';
+    document.getElementById('messagesContainer').style.display = 'none';
+    document.getElementById('forgotPasswordForm').style.display = 'none';
+    document.getElementById('changePasswordContainer').style.display = 'none';
+  }
+});
+
+//JavaScript for Accessibility:
+function showModal(modalId, message) {
+  const modal = document.getElementById(modalId);
+  if (message) {
+    modal.querySelector('p').textContent = message;
+  }
+  modal.style.display = 'block';
+  modal.querySelector('button').focus();
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'none';
+  document.activeElement.blur();
+}
+
+function displaySuccessModal(message) {
+  document.getElementById('modalSuccessMessage').textContent = message;
+  showModal('successModal');
+}
+
+function closeSuccessModal() {
+  closeModal('successModal');
+}
+
+function displayErrorModal(message) {
+  document.getElementById('modalErrorMessage').textContent = message;
+  showModal('errorModal');
+}
+
+function closeErrorModal() {
+  closeModal('errorModal');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const successOKButton = document.getElementById('successOKButton');
+  if (successOKButton) {
+    successOKButton.addEventListener('click', closeSuccessModal);
+  }
+
+  const errorOKButton = document.getElementById('errorOKButton');
+  if (errorOKButton) {
+    errorOKButton.addEventListener('click', closeErrorModal);
+  }
+
+  // Close modals when clicking outside of modal content
+  window.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal')) {
+      closeModal('successModal');
+      closeModal('errorModal');
+    }
+  });
+});
+
+
+
+
+// Functions to toggle forms
+function showRegistrationForm() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registrationForm').style.display = 'block';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordContainer').style.display = 'none';
+}
+
+function logout() {
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordContainer').style.display = 'none';
+  var statusButton = document.getElementById('Status');
+  if (statusButton) {
+    statusButton.disabled = true;
+  }
+  var ChangepassButton = document.getElementById('Changepass');
+  if (ChangepassButton) {
+    ChangepassButton.disabled = true;
+  }
+}
+
+function showLoginForm() {
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordContainer').style.display = 'none';
+}
+
+function showForgotPasswordForm() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'block';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordForm').style.display = 'none';
+}
+
+function showchangePasswordForm() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordContainer').style.display = 'block';
+}
+
+function showMessagesContainer() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('dataAddForm').style.display = 'none';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'block';
+  document.getElementById('changePasswordContainer').style.display = 'none';
+}
+
+function showDataAddForm() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registrationForm').style.display = 'none';
+  document.getElementById('dataAddForm').style.display = 'block';
+  document.getElementById('forgotPasswordForm').style.display = 'none';
+  document.getElementById('messagesContainer').style.display = 'none';
+  document.getElementById('changePasswordContainer').style.display = 'none';
+  var statusButton = document.getElementById('Status');
+  if (statusButton) {
+    statusButton.disabled = false;
+  }
+  var ChangepassButton = document.getElementById('Changepass');
+  if (ChangepassButton) {
+    ChangepassButton.disabled = false;
+  }
+}
+
+ // Function to display success modal
+  function displaySuccessModal(message) {
+      document.getElementById('modalSuccessMessage').textContent = message;
+      document.getElementById('successModal').style.display = 'block';
+  }
+
+
+  // Function to close success modal
+  function closeSuccessModal() {
+      const successModal = document.getElementById('successModal');
+      if (successModal) {
+          successModal.style.display = 'none'; // Hide the modal
+      }
+  }
+
+  // Function to display error modal
+  function displayErrorModal(message) {
+      document.getElementById('modalErrorMessage').textContent = message;
+      document.getElementById('errorModal').style.display = 'block';
+  }
+
+  // Function to close error modal
+  function closeErrorModal() {
+      document.getElementById('errorModal').style.display = 'none';
+  }
+
+  // Add event listener for success modal close button
+  document.addEventListener('DOMContentLoaded', () => {
+      const successOKButton = document.getElementById('successOKButton');
+      if (successOKButton) {
+          successOKButton.addEventListener('click', closeSuccessModal);
+      }
+  });
+
+  // Add event listener for error modal close button
+  document.addEventListener('DOMContentLoaded', () => {
+      const errorOKButton = document.getElementById('errorOKButton'); // Make sure this ID is correct
+      if (errorOKButton) {
+          errorOKButton.addEventListener('click', closeErrorModal);
+      }
+  });
+
+function showForm(formId) {
+  const forms = ['loginForm', 'registrationForm', 'dataAddForm', 'forgotPasswordForm', 'messagesContainer', 'changePasswordContainer'];
+  forms.forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById(formId).style.display = 'block';
+}
+
+
+// Function to send a message from client
+function sendMessage() {
+  var message = document.getElementById('clientMessage').value;
+  var usernameInput = document.getElementById('usernameInput'); // Get the username input element
+  var sender = loggedInUsername || (usernameInput ? usernameInput.value : ''); // Use logged-in username or usernameInput
+
+  if (message.trim()) {  // Check if the message is not empty
+    if (sender) { // Ensure sender is not empty
+      database.ref('messages').push({
+        message: message,
+        recipient: 'MARLET', // Fixed recipient
+        sender: sender,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      });
+      document.getElementById('clientMessage').value = ''; // Clear input field
+    } else {
+      console.error("Sender username is empty"); // Log error if sender is empty
+    }
+  } else {
+    console.error("Message is empty"); // Log error if message is empty
+  }
+  console.log('Sender:', sender);
+
+}
+
+// Listen for incoming messages
+database.ref('messages').on('child_added', function(snapshot) {
+  var messageData = snapshot.val();
+  // Display message only if sender or recipient matches the logged-in username
+  if (messageData.sender === loggedInUsername || messageData.recipient === loggedInUsername) {
+    displayMessage(messageData.sender, messageData.message, messageData.recipient, messageData.timestamp);
+  }
+});
+
+// Function to escape HTML characters to prevent XSS attacks
+function escapeHTML(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+// Function to display a message in the UI
+function displayMessage(sender, message, recipient, timestamp) {
+  // Escape HTML special characters in sender, message, and recipient
+  var safeSender = escapeHTML(sender);
+  var safeMessage = escapeHTML(message);
+  var safeRecipient = escapeHTML(recipient);
+  
+  // Format timestamp
+  var formattedTime = new Date(timestamp).toLocaleTimeString();
+  
+  // Create the HTML content with the new format
+  var messageDisplay = document.createElement('div');
+  messageDisplay.innerHTML = 
+    '<strong>' + safeSender + '</strong>: <em>(' + formattedTime + ')</em><br>' +
+    '&nbsp;&nbsp;&nbsp;&nbsp;' + safeMessage;
+  
+  // Get the messages container
+  var messagesContainer = document.getElementById('messages');
+  if (messagesContainer) {
+    // Insert the new message at the top
+    messagesContainer.insertBefore(messageDisplay, messagesContainer.firstChild);
+    // Scroll to the top
+    messagesContainer.scrollTop = 0;
+  } else {
+    console.error("Messages container not found"); // Log error if messages container is not found
+  }
+}
+
+
+ // Function to add user data
+document.getElementById('userForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Ensure username is available
+    if (!loggedInUsername) {
+        console.error('No user is logged in');
+        displayErrorToast('You must be logged in to add data.');
+        return;
+    }
+
+    const usernameInput = loggedInUsername; // Use logged-in username
+    const carMaker = document.getElementById('carMaker').value;
+    const carModel = document.getElementById('carModel').value;
+    const chassisNumber = document.getElementById('chassisNumber').value;
+    const problem = document.getElementById('problem').value;
+    const year = document.getElementById('year').value;
+    const avastst = document.getElementById('avastst').value;
+
+    usersRef.push({
+        NAME: usernameInput,
+        CAR_MAKER: carMaker,
+        CAR_MODEL: carModel,
+        CHASSIS_NUMBER: chassisNumber,
+        PROBLEM: problem,
+        YEAR: year,
+        Status: avastst
+
+    })
+    .then(() => {
+        console.log('User data added successfully');
+        displayErrorToast('User data added successfully');
+        document.getElementById('userForm').reset(); // Reset the form fields
+    })
+    .catch((error) => {
+        console.error('Error adding user data:', error);
+        displayErrorToast('Error adding user data');
+    });
+});
+
+
+
+// Reference to Firestore
+const db = firebase.firestore();
+
+// Function to register a user
+async function registerUser() {
+    const username = document.getElementById('regUsername').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    const email = `${username}@example.com`; // Dummy email format
+
+    console.log('Registration attempt with details:', {
+        username,
+        email,
+        password: password.replace(/./g, '*') // Hide password in logs for security
+    });
+
+    // Basic validation
+    if (!username || !password) {
+        alert('Please fill out both the username and password.');
+        return;
+    }
+
+    if (password.length < 6) {
+        alert('Password must be at least 6 characters long.');
+        return;
+    }
+
+    try {
+        // Create user with Firebase Authentication
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        console.log('User registered successfully:', {
+            uid: user.uid,
+            email: user.email
+        });
+
+        // Reference to the 'users' collection
+        const usersRef = db.collection('users');
+
+        // Add a document to the 'users' collection with username as the document ID
+        await usersRef.doc(username).set({
+            name: username,
+            email: email,
+            uid: user.uid, // Store user UID for future reference
+            createdAt: firebase.firestore.FieldValue.serverTimestamp() // Add timestamp for user creation
+        });
+
+        console.log('User data saved to Firestore successfully for username:', username);
+
+        // Notify user of successful registration
+        alert('User registered successfully.');
+
+    } catch (error) {
+        // Handle errors (both Firebase Authentication and Firestore)
+        console.error('Error during registration:', {
+            message: error.message,
+            code: error.code
+        });
+
+        // Show appropriate error message to the user
+        let errorMessage = 'Registration failed. ';
+        if (error.code === 'auth/email-already-in-use') {
+            errorMessage += 'The username is already taken. Please try another one.';
+        } else if (error.code === 'auth/weak-password') {
+            errorMessage += 'The password is too weak. Please choose a stronger password.';
+        } else {
+            errorMessage += error.message;
+        }
+        alert(errorMessage);
+    }
+}
+
+
+
+
+// Show login form function (for demonstration purposes)
+function showLoginForm() {
+    // Assuming you have logic to show the login form
+    document.getElementById('registrationForm').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block'; // Adjust as needed
+}
+
+
+// Ensure the script runs after the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Any initialization code here if needed
+});
+
+
+
+// Function to login a user
+async function loginUser() {
+    var username = document.getElementById('loginUsername').value;
+    var password = document.getElementById('loginPassword').value;
+    var email = `${username}@example.com`; // Use correct email format
+
+    console.log(`Attempting login with email: ${email}`); // Log the email used for login
+
+    try {
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        var user = userCredential.user;
+        console.log('User logged in successfully:', user.uid);
+        loggedInUsername = username; // Store the logged-in username
+        showDataAddForm();
+    } catch (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.error(`Login failed. Error code: ${errorCode}, Message: ${errorMessage}`);
+        displayErrorToast("You entered the wrong username or password. Please try again.");
+    }
+}
+
+
+
+// Function to reset password and send a message
+function resetPassword() {
+  var username = document.getElementById('resetEmail').value;  // Assume this is the username, not email.
+  
+  // Append '@example.com' to the username to create the email
+  var email = `${username}@example.com`;
+
+  // Log the constructed email for debugging purposes
+  console.log('Password reset attempt for email:', email);
+
+  // Send password reset email
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+      console.log('Password reset email sent');
+      displayErrorToast('Password reset email sent. Please check your inbox.');
+
+      // Optionally, you can use the username (without the '@example.com')
+      sendMessageToMARLET(username); // Send a message to MARLET using the username
+    })
+    .catch((error) => {
+      var errorMessage = error.message;
+      console.error('Error sending password reset email:', errorMessage);
+      displayErrorToast('Error sending password reset email: ' + errorMessage);
+    });
+}
+
+
+// Function to toggle the visibility of the change password container
+function toggleChangePasswordContainer() {
+  const container = document.getElementById('changePasswordContainer');
+  if (container.style.display === 'none' || container.style.display === '') {
+    container.style.display = 'block'; 
+  } else {
+    container.style.display = 'none';
+    dataAddForm.style.display = 'block';
+  }
+}
+
+// Optional: Function to hide the change password container when clicking outside of it
+window.onclick = function(event) {
+  const container = document.getElementById('changePasswordContainer');
+  if (event.target.id === 'changePasswordContainer') {
+    container.style.display = 'none';
+  }
+}
+
+
+
+
+    // Function to change user password
+    function changePassword() {
+      const email = document.getElementById('resetuser').value.trim();
+      const oldPassword = document.getElementById('oldPassword').value.trim();
+      const newPassword = document.getElementById('newPassword').value.trim();
+      const errorMessageElement = document.getElementById('reset-error-message');
+
+      if (!email || !oldPassword || !newPassword) {
+        errorMessageElement.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      firebase.auth().signInWithEmailAndPassword(email, oldPassword)
+        .then(userCredential => userCredential.user.updatePassword(newPassword))
+        .then(() => {
+          errorMessageElement.textContent = 'Password updated successfully!';
+          document.getElementById('resetuser').value = '';
+          document.getElementById('oldPassword').value = '';
+          document.getElementById('newPassword').value = '';
+        })
+        .catch(error => {
+          console.error('Error updating password:', error);
+          errorMessageElement.textContent = 'Error updating password: ' + error.message;
+        });
+    }
+
+
+// Function to send a message to MARLET
+function sendMessageToMARLET(username) {
+  var message = `Password reset request received for username: ${username}`;
+  
+  // Ensure sender username is available
+  var sender = loggedInUsername || username || 'Unknown User';
+
+  // Send message to MARLET
+  database.ref('messages').push({
+    message: message,
+    recipient: 'MARLET',
+    sender: sender,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  })
+  .then(() => {
+    console.log('Message sent to MARLET');
+  })
+  .catch((error) => {
+    console.error('Error sending message to MARLET:', error.message);
+  });
+}
+
+
+
+// Function to toggle the display of messages
+function toggleMessages() {
+  var messagesContainer = document.getElementById('messagesContainer');
+  if (messagesContainer.style.display === 'none' || messagesContainer.style.display === '') {
+    showMessagesContainer();
+  } else {
+    messagesContainer.style.display = 'none';
+    dataAddForm.style.display = 'block';
+  }
+}
+
+
+
+
+function updateCarMaker() {
+var carList = document.getElementById("carList");
+var carMakerInput = document.getElementById("carMaker");
+
+if (carList.value === "Other") {
+carMakerInput.value = ""; // Clear any previous input
+carMakerInput.disabled = false; // Enable input field
+} else {
+carMakerInput.value = carList.value;
+carMakerInput.disabled = true; // Disable input field if selected from list
+}
+
+    // Populate carList2 based on carList selection
+    var carList2 = document.getElementById("carList2");
+    carList2.innerHTML = ""; // Clear previous options
+
+    // Define car models for each brand
+const carModels = {
+    "Toyota": ["Select Car Maker", "Other", "4Runner", "Avalon", "C-HR", "Camry", "Corolla", "GR Supra", "Highlander", "Land Cruiser", "Mirai", "Prius", "RAV4", "Sequoia", "Sienna", "Tacoma", "Tundra", "Venza", "Yaris"],
+    "Suzuki": ["Select Car Maker", "Other", "Alto", "Alto K10", "Baleno", "Celerio", "Ciaz", "Dzire", "Ertiga", "Ignis", "Jimny", "S-Cross", "Splash", "Swift", "SX4", "Vitara", "Vitara Brezza", "XL6", "XL7", "S-Presso", "Gypsy"],
+    "Hyundai": ["Select Car Maker", "Other", "Accent", "Atos", "Avante", "Azera", "BlueOn", "Chorus", "Elantra", "Elantra Coupe", "Elantra GT", "Equus", "Excel", "Galloper", "Genesis", "Genesis Coupe", "Grand i10", "Grandeur", "HB20", "I10", "I20", "I30", "I40", "Ioniq", "ix20", "ix35", "ix55", "Kona", "Matrix", "Palisade", "Pony", "Porter", "Santa Fe", "Santamo", "Scoupe", "Sonata", "Starex", "Terracan", "Trajet", "Tucson", "Veloster", "Veracruz", "Venue", "XG"],
+    "Volkswagen": ["Select Car Maker", "Other", "Accent", "Atos", "Avante", "Azera", "BlueOn", "Chorus", "Elantra", "Elantra Coupe", "Arteon", "Atlas", "Beetle", "CC", "CrossFox", "e-Golf", "Fox", "Golf", "Golf Alltrack", "Golf GTI", "Golf R", "Jetta", "Lupo", "Passat", "Phaeton", "Polo", "Scirocco", "T-Cross", "T-Roc", "Tiguan", "Touareg", "Up!"],
+    "Honda": ["Select Car Maker", "Other", "Accord", "Amaze", "BR-V", "Brio", "City", "Civic", "CR-V", "CR-Z", "Fit", "HR-V", "Insight", "Jazz", "Mobilio", "Odyssey", "Passport", "Pilot", "Ridgeline", "S2000"],
+    "Ford": ["Select Car Maker", "Other", "Bronco", "Edge", "Escape", "Everest", "Expedition", "Explorer", "Fiesta", "Focus", "Fusion", "Mustang", "Ranger", "Taurus", "Transit"],
+    "Isuzu": ["Select Car Maker", "Other", "Amigo", "Ascender", "D-Max", "Hombre", "i-Series", "MU-X", "Rodeo", "Trooper", "VehiCROSS"],
+    "Nissan": ["Select Car Maker", "Other", "350Z", "370Z", "Altima", "Armada", "Cube", "Frontier", "GT-R", "Juke", "Kicks", "Leaf", "Maxima", "Murano", "NV", "Pathfinder", "Patrol", "Quest", "Rogue", "Sentra", "Titan", "Versa", "Xterra", "Z"],
+    "Mitsubishi": ["Select Car Maker", "Other", "3000GT", "ASX", "Carisma", "Colt", "Eclipse", "Endeavor", "Galant", "Grandis", "L200", "Lancer", "Mirage", "Montero", "Outlander", "Pajero", "Space Star", "Triton"],
+    "Mercedes": ["Select Car Maker", "Other", "A-Class", "B-Class", "C-Class", "CLA-Class", "CLS-Class", "E-Class", "GLA-Class", "GLC-Class", "GLE-Class", "GLS-Class", "S-Class", "SL-Class", "SLC-Class", "V-Class"],
+    "Chevrolet": ["Select Car Maker", "Other", "Aveo", "Blazer", "Camaro", "Captiva", "Cavalier", "Colorado", "Corvette", "Cruze", "Equinox", "Impala", "Malibu", "Silverado", "Sonic", "Spark", "Suburban", "Tahoe", "Trailblazer", "Traverse", "Trax", "Volt"],
+    "Kia": ["Select Car Maker", "Other", "Cadenza", "Forte", "K5", "K900", "Niro", "Optima", "Rio", "Seltos", "Sorento", "Soul", "Sportage", "Stinger", "Telluride"],
+    "BMW": ["Select Car Maker", "Other", "1 Series", "2 Series", "3 Series", "4 Series", "5 Series", "6 Series", "7 Series", "8 Series", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z4"],
+    "Subaru": ["Select Car Maker", "Other", "Ascent", "BRZ", "Crosstrek", "Forester", "Impreza", "Legacy", "Outback", "WRX", "XV Crosstrek"],
+    "Mazda": ["Select Car Maker", "Other", "2", "3", "6", "CX-3", "CX-30", "CX-5", "CX-9", "MX-5 Miata"],
+    "LandRover": ["Select Car Maker", "Other", "Defender", "Discovery", "Discovery Sport", "Range Rover", "Range Rover Evoque", "Range Rover Sport", "Range Rover Velar"],
+    "Jeep": ["Select Car Maker", "Other", "Cherokee", "Compass", "Gladiator", "Grand Cherokee", "Renegade", "Wrangler"],
+    "Lexus": ["Select Car Maker", "Other", "ES", "GS", "GX", "IS", "LC", "LS", "LX", "NX", "RC", "RX", "UX"],
+    "Audi": ["Select Car Maker", "Other", "A3", "A4", "A5", "A6", "A7", "A8", "Q3", "Q5", "Q7", "Q8", "TT"],
+    "Peugeot": ["Select Car Maker", "Other", "108", "208", "2008", "3008", "5008", "508", "Partner"],
+    "Renault": ["Select Car Maker", "Other", "Captur", "Clio", "Duster", "Kadjar", "Koleos", "Megane", "Scenic", "Talisman", "Twingo", "Zoe"],
+    "Volvo": ["Select Car Maker", "Other", "S60", "S90", "V60", "V90", "XC40", "XC60", "XC90"],
+    "Fiat": ["Select Car Maker", "Other", "Fiat500", "Fiat500L", "Fiat500X", "Panda", "Tipo"],
+    "Dodge": ["Select Car Maker", "Other", "Challenger", "Charger", "Durango", "Journey"],
+    "Opel": ["Select Car Maker", "Other", "Adam", "Astra", "Corsa", "Crossland X", "Grandland X", "Insignia", "Mokka"],
+    "Tata": ["Select Car Maker", "Other", "Altroz", "Harrier", "Hexa", "Nexon", "Safari", "Tiago", "Tigor"],
+    "Skoda": ["Select Car Maker", "Other", "Fabia", "Kamiq", "Karoq", "Kodiaq", "Octavia", "Rapid", "Scala", "Superb"],
+    "Chrysler": ["Select Car Maker", "Other", "300", "Pacifica", "Voyager"],
+    "Porsche": ["Select Car Maker", "Other", "911", "Cayenne", "Macan", "Panamera", "Taycan"],
+    "Mini": ["Select Car Maker", "Other", "Clubman", "Countryman", "Hardtop 2 Door", "Hardtop 4 Door", "Convertible"]
+};
+
+// Function to populate car models based on selected brand
+function updateCarModels() {
+    // Clear the existing options
+    carList2.innerHTML = '';
+
+    // Get the selected brand
+    const selectedBrand = carList.value;
+
+    // Get models for the selected brand
+    const models = carModels[selectedBrand] || ["Select a brand"];
+
+    // Add each model as an option
+    models.forEach(function(model) {
+        const option = document.createElement("option");
+        option.text = model;
+        option.value = model;
+        carList2.add(option);
+    });
+}
+
+// Attach the event listener to update car models when the brand changes
+carList.addEventListener("change", updateCarModels);
+
+// Initial population of models when the page loads
+updateCarModels();
+
+
+
+}
+
+function updateCarModel() {
+var carList = document.getElementById("carList2");
+var carModelInput = document.getElementById("carModel");
+if (carList2.value === "Other") {
+    carModelInput.value = ""; // Clear any previous input
+    carModelInput.disabled = false; // Enable input field
+} else {
+    carModelInput.value = carList2.value;
+    carModelInput.disabled = true; // Disable input field if selected from list
+}
+}
+
+// Array of labels for language A
+const translations = {
+  English: {
+    languageButton: "አማርኛ",
+    logout: "Logout",
+    Status: "Status",
+    LoginUsernamel: "Username (Phone)",
+    LoginPasswordl: "Password",
+    Loginb: "Login",
+    Registerb: "Register",
+    showLoginFormfb: "Back to Login",
+    ForgotPasswordb: "Forgot password?",
+    resetEmail: "Enter your email:",
+    ResetPasswordb: "Reset Password",
+    showLoginFormrb: "Back to Login",
+    RegUsername: "Username (Phone)",
+    RegPassword: "Password:",
+    Registerrb: "Register",
+    CarListl: "Select Car Maker:",
+    CarList2l: "Select Car Model:",
+    ChassisNumber: "Chassis Number:",
+    Problem: "Item Name:",
+    Year: "Year:",
+    addUserButtonb: "Send",
+    modalOKButton: "Ok",
+    toastOKButton: "Ok", 
+    successOKButton: "Ok",
+    Smessage: "Send Message",
+    dataAddFormHeading: "Add Car Data",
+    loginFormHeading: "Login",  // Added key for the heading
+    registrationFormHeading: "Registration",  // Added key for the heading
+    forgotPasswordFormHeading: "Forgot Password",  // Added key for the heading
+    StatusHeading: "Status",  // Added key for the heading
+    //clientMessage: "Type a message...",
+    //carMaker: "Car Maker",
+    //carModel: "Car Model",
+    //year: "Year",
+    //chassisNumber: "Chassis Number"
+
+  },
+  Amharic: {
+    languageButton: "English",
+    logout: "ውጣ",
+    Status: "ያለበት ሁኔታ",
+    LoginUsernamel: "ስልክ",
+    LoginPasswordl: "መለያ",
+    Loginb: "ግባ",
+    Registerb: "መዝግብ",
+    showLoginFormfb: "ወደ መግብያ መልስ",
+    ForgotPasswordb: "መለያ መርሳት",
+    resetEmail: "ስልክ",
+    ResetPasswordb: "መለያ ሰርዝ",
+    showLoginFormrb: "ወደ መግብያ መልስ",
+    RegUsername: "ስልክ",
+    RegPassword: "መለያ",
+    Registerrb: "መዝግብ",
+    CarListl: "የመኪናው ካምፓኒ",
+    CarList2l: "የመኪናው አይነት",
+    ChassisNumber: "ቻንሲ ቁጥር",
+    Problem: "ሚፈለገው ዕቃ",
+    Year: "መኪናው የተሰራበት አመት",
+    addUserButtonb: "ላክ",
+    modalOKButton: "እሺ", 
+    toastOKButton: "እሺ", 
+    successOKButton: "እሺ",
+    Smessage: "መልዕክት ላክ",    
+    dataAddFormHeading: "የመኪናዎን አይነት ይግለፁ",  // Added key for the heading
+    loginFormHeading: "ግባ",  // Added key for the heading
+    registrationFormHeading: "መዝግብ",  // Added key for the heading
+    forgotPasswordFormHeading: "መለያ መርሳት",  // Added key for the heading
+    StatusHeading: "ያለበት ሁኔታ",  // Added key for the heading
+    //clientMessage: "መልዕክት ፃፍ...",
+    //carMaker: "የመኪናው ካምፓኒ",
+    //carModel: "የመኪናው አይነት",
+    //year: "መኪናው የተሰራበት አመት",
+    //chassisNumber: "Chassis Number"
+
+  }
+};
+
+function toggleLanguage() {
+  const languageButton = document.getElementById('languageButton');
+  const currentLang = languageButton.textContent === 'አማርኛ' ? 'Amharic' : 'English';
+
+  updateLabels(translations[currentLang]);
+
+  languageButton.textContent = translations[currentLang].languageButton;
+}
+
+
+function updateLabels(labels) {
+  Object.keys(labels).forEach(id => {
+    const element = document.getElementById(id);
+    console.log(`Attempting to update ID: ${id} with label: ${labels[id]}`);
+    if (element) {
+      element.textContent = labels[id];
+    } else {
+      console.warn(`No element found with ID: ${id}`);
+    }
+  });
+}
+
+    // Toggle menu visibility
+    function toggleMenu() {
+      var menuContent = document.getElementById('menuContent');
+      var menuButton = document.querySelector('.menu-button');
+      var isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+
+      if (isExpanded) {
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuContent.classList.toggle('active');
+      } else {
+        menuButton.setAttribute('aria-expanded', 'true');
+        menuContent.classList.add('active');
+      }
+    }
+
+    // Close menu when clicking anywhere outside of the hamburger menu or buttons inside it
+    window.onclick = function(event) {
+      var menuContent = document.getElementById('menuContent');
+      var menuButton = document.querySelector('.menu-button');
+
+      // Check if the clicked element is NOT the menu button or inside the menu content
+      if (!menuButton.contains(event.target) && !menuContent.contains(event.target)) {
+        menuContent.classList.remove('active');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    };
+
+    // Function to close the menu after button actions
+    function handleClick(action) {
+      action();  // Call the specific action (e.g., toggleLanguage, logout, etc.)
+      closeMenu();  // Close the menu after the action
+    }
+    // Close menu when any button inside it is clicked
+    const menuContent = document.getElementById('menuContent');
+    menuContent.addEventListener('click', function(event) {
+      if (event.target.matches('button')) { // Adjust selector if needed
+        closeMenu(document.querySelector('.menu-button'), menuContent);
+      }
+    });
+
+    // Helper function to close the menu
+    function closeMenu() {
+      var menuContent = document.getElementById('menuContent');
+      var menuButton = document.querySelector('.menu-button');
+      menuContent.classList.remove('active');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }
+
+
+
+  </script>
+</body>
+</html>
